@@ -173,4 +173,4 @@ Modelagem relacional, Entity Framework Core e migrations, ASP.NET Core Identity,
 
 ## Autor
 
-**Seu Nome** · [LinkedIn](https://www.linkedin.com/in/seu-perfil) · [GitHub](https://github.com/SEU-USUARIO)
+**Gustavo Ramalho de Andrade** · [LinkedIn](https://www.linkedin.com/in/seu-perfil) · [GitHub](https://github.com/SEU-USUARIO)
