@@ -4,7 +4,7 @@ namespace MyCourse.Models
 {
     public class Comments
     {
-        public void NewComment(Guid videoId, Guid userId, string content, string? imageUrl)
+        public Comments(Guid videoId, Guid userId, string content, string? imageUrl)
         {
             Content = content;
             VideoId = videoId;
@@ -12,11 +12,6 @@ namespace MyCourse.Models
             ImageUrl = imageUrl;
 
             Id = Guid.NewGuid();
-        }
-        public void UpdateComment(string content, string? imageUrl)
-        {
-            Content = content;
-            ImageUrl = imageUrl;
         }
         public Guid Id { get; set; }
         public Guid VideoId { get; set; }

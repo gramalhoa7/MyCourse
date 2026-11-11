@@ -12,10 +12,14 @@ namespace MyCourse.Data
         public DbSet<Topics> Topics { get; set; }
         public DbSet<Videos> Videos { get; set; }
         public DbSet<Comments> Comments { get; set; }
+        public DbSet<CommentAnswers> CommentAnswers { get; set; }
+        public DbSet<Notes> Notes { get; set; }
         public DbSet<Plans> Plans { get; set; }
         public DbSet<PlanTimeSpans> PlanTimeSpans { get; set; }
         public DbSet<Questions> Questions { get; set; }
         public DbSet<Alternatives> Alternatives { get; set; }
+        public DbSet<Contracts> Contracts { get; set; }
+        public DbSet<UserSettings> Settings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

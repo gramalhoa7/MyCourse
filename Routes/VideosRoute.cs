@@ -14,13 +14,23 @@ public static class VideosRoute
             return Results.Ok(video);
         });
 
-        app.MapGet("Lessons", async (DBContext context) =>
+        app.MapGet("Lessons", async (DBContext context, Matters? mat) =>
+        {
+            if (mat == null)
+            {
+                return Results.BadRequest("Matter parameter is required.");
+            }
+            var videos = await context.Videos.Where(v => v.Topic.Branch.Matter == mat).ToListAsync();
+            return Results.Ok(videos);
+        });
+
+        app.MapGet("Controlpanel/Lessons", async (DBContext context) =>
         {
             var videos = await context.Videos.ToListAsync();
             return Results.Ok(videos);
         });
 
-        app.MapPost("Lessons", async (DBContext context, VideosRequest req) =>
+        app.MapPost("Controlpanel/Lessons", async (DBContext context, VideosRequest req) =>
         {
             var video = new Videos(req.Title, req.Description ?? string.Empty, req.Url, req.TopicId);
             context.Videos.Add(video);
@@ -28,7 +38,7 @@ public static class VideosRoute
             return Results.Ok(video);
         });
 
-        app.MapPut("Lessons/{Id=guid}", async (DBContext context, Guid id, VideosRequest req) =>
+        app.MapPut("Controlpanel/Lessons/{Id=guid}", async (DBContext context, Guid id, VideosRequest req) =>
         {
             var video = await context.Videos.FindAsync(id);
             if (video == null)
@@ -43,7 +53,7 @@ public static class VideosRoute
             return Results.Ok(video);
         });
 
-        app.MapDelete("Lessons/{Id=guid}", async (DBContext context, Guid id) =>
+        app.MapDelete("Controlpanel/Lessons/{Id=guid}", async (DBContext context, Guid id) =>
         {
             var video = await context.Videos.FindAsync(id);
             if (video == null)
