@@ -164,3 +164,4 @@ C:\Users\T.T\Projects\MyCourseAPI\obj\Debug\net10.0\refint\MyCourseAPI.dll
 C:\Users\T.T\Projects\MyCourseAPI\obj\Debug\net10.0\MyCourseAPI.pdb
 C:\Users\T.T\Projects\MyCourseAPI\obj\Debug\net10.0\MyCourseAPI.genruntimeconfig.cache
 C:\Users\T.T\Projects\MyCourseAPI\obj\Debug\net10.0\ref\MyCourseAPI.dll
+C:\Users\T.T\Projects\MyCourseAPI\obj\Debug\net10.0\MyCourseAPI.sourcelink.json

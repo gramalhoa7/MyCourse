@@ -12,72 +12,79 @@ public static class CommentsRoute
     {
         app.MapGet("Comments", async (DBContext context, UserManager<Users> userManager, ClaimsPrincipal user) =>
         {
-            var userIdText = userManager.GetUserId(user);
-            if (string.IsNullOrWhiteSpace(userIdText)) return Results.Unauthorized();
+            var userId = userManager.GetCurrentUserId(user);
+            if (userId == null) return Results.Unauthorized();
 
-            var userId = Guid.Parse(userIdText);
             var comments = await context.Comments.Where(c => c.UserId == userId).ToListAsync();
             return Results.Ok(comments);
         });
         
-        app.MapGet("Lessons/{Id=guid}/Comments", async (DBContext context, Guid id) =>
+        app.MapGet("Lessons/{id:guid}/Comments", async (DBContext context, Guid id) =>
         {
             var comments = await context.Comments.Where(c => c.VideoId == id).ToListAsync();
             return Results.Ok(comments);
         });
 
-        app.MapPost("Lessons/{Id=guid}/Comments", async (DBContext context, Guid id, CommentsRequest req) =>
+        app.MapPost("Lessons/{id:guid}/Comments", async (DBContext context, Guid id, CommentsRequest req, UserManager<Users> userManager, ClaimsPrincipal user) =>
         {
-            if (req.Content.Length > 10000)
-            {
-                return Results.BadRequest("Content exceeds the maximum length of 10,000 characters.");
-            }
-            
-            else if (string.IsNullOrWhiteSpace(req.Content))
+            var userId = userManager.GetCurrentUserId(user);
+            if (userId == null) return Results.Unauthorized();
+
+            if (string.IsNullOrWhiteSpace(req.Content))
             {
                 return Results.BadRequest("Content cannot be empty.");
             }
 
-            var comment = new Comments(req.VideoId, req.UserId, req.Content, req.ImageUrl ?? string.Empty);
+            else if (req.Content.Length > 10000)
+            {
+                return Results.BadRequest("Content exceeds the maximum length of 10,000 characters.");
+            }
+
+            if (!await context.Videos.AnyAsync(v => v.Id == id))
+                return Results.NotFound();
+
+            var comment = new Comments(id, userId.Value, req.Content, req.ImageUrl ?? string.Empty);
             context.Comments.Add(comment);
             await context.SaveChangesAsync();
             return Results.Ok(comment);
         });
 
-        app.MapPut("Lessons/{VideoId=guid}/Comments/{id=guid}", async (DBContext context, Guid id, CommentsRequest req) =>
+        app.MapPut("Lessons/{videoId:guid}/Comments/{id:guid}", async (DBContext context, Guid videoId, Guid id, CommentsRequest req, UserManager<Users> userManager, ClaimsPrincipal user) =>
         {
-            if (req.Content.Length > 10000)
-            {
-                return Results.BadRequest("Content exceeds the maximum length of 10,000 characters.");
-            }
+            var userId = userManager.GetCurrentUserId(user);
+            if (userId == null) return Results.Unauthorized();
 
-            else if (string.IsNullOrWhiteSpace(req.Content))
+            if (string.IsNullOrWhiteSpace(req.Content))
             {
                 return Results.BadRequest("Content cannot be empty.");
             }
 
-            var comment = await context.Comments.FindAsync(id);
+            else if (req.Content.Length > 10000)
+            {
+                return Results.BadRequest("Content exceeds the maximum length of 10,000 characters.");
+            }
+
+            var comment = await context.Comments.FirstOrDefaultAsync(c => c.Id == id && c.VideoId == videoId);
             if (comment == null)
                 return Results.NotFound();
 
+            if (comment.UserId != userId) return Results.Forbid();
+
             comment.Content = req.Content;
-            comment.VideoId = req.VideoId;
             comment.ImageUrl = req.ImageUrl ?? string.Empty;
 
             await context.SaveChangesAsync();
             return Results.Ok(comment);
         });
 
-        app.MapDelete("Lessons/{VideoId=guid}/Comments/{Id=guid}", async (DBContext context, Guid videoId, Guid id, UserManager<Users> userManager, ClaimsPrincipal user) =>
+        app.MapDelete("Lessons/{videoId:guid}/Comments/{id:guid}", async (DBContext context, Guid videoId, Guid id, UserManager<Users> userManager, ClaimsPrincipal user) =>
         {
-            var comment = await context.Comments.FindAsync(id);
+            var userId = userManager.GetCurrentUserId(user);
+            if (userId == null) return Results.Unauthorized();
+
+            var comment = await context.Comments.FirstOrDefaultAsync(c => c.Id == id && c.VideoId == videoId);
             if (comment == null) return Results.NotFound();
 
-            var userIdText = userManager.GetUserId(user);
-            if (string.IsNullOrWhiteSpace(userIdText))
-                return Results.Unauthorized();
-
-            var userId = Guid.Parse(userIdText);
             if (comment.UserId != userId) return Results.Forbid();
 
             context.Comments.Remove(comment);

@@ -8,9 +8,12 @@ public static class VideosRoute
 {
     public static void VideosRoutes(this WebApplication app)
     {
-        app.MapGet("Lessons/{Id=guid}", async (DBContext context, Guid id) =>
+        app.MapGet("Lessons/{id:guid}", async (DBContext context, Guid id) =>
         {
             var video = await context.Videos.FindAsync(id);
+            if (video == null)
+                return Results.NotFound();
+
             return Results.Ok(video);
         });
 
@@ -38,7 +41,7 @@ public static class VideosRoute
             return Results.Ok(video);
         });
 
-        app.MapPut("Controlpanel/Lessons/{Id=guid}", async (DBContext context, Guid id, VideosRequest req) =>
+        app.MapPut("Controlpanel/Lessons/{id:guid}", async (DBContext context, Guid id, VideosRequest req) =>
         {
             var video = await context.Videos.FindAsync(id);
             if (video == null)
@@ -53,7 +56,7 @@ public static class VideosRoute
             return Results.Ok(video);
         });
 
-        app.MapDelete("Controlpanel/Lessons/{Id=guid}", async (DBContext context, Guid id) =>
+        app.MapDelete("Controlpanel/Lessons/{id:guid}", async (DBContext context, Guid id) =>
         {
             var video = await context.Videos.FindAsync(id);
             if (video == null)

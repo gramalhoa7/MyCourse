@@ -2,7 +2,7 @@ namespace MyCourse.Models
 {
     public class Videos
     {
-        public Videos(string title, string description, string url, Guid topicId)
+        public Videos(string title, string description, string url, int topicId)
         {
             Title = title;
             Description = description;
@@ -15,7 +15,7 @@ namespace MyCourse.Models
         public string Title { get; set; } = string.Empty;
         public string? Description { get; set; }
         public string Url { get; set; } = string.Empty;
-        public Guid TopicId { get; set; }
+        public int TopicId { get; set; }
         public Topics Topic { get; set; } = null!;
     }
 }

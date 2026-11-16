@@ -21,7 +21,7 @@ namespace MyCourse.Models
             HighContrast = false;
             ReduceMotion = false;
         }
-        public Guid? UserId { get; set; }            // é a chave: 1 linha por aluno
+        public Guid UserId { get; set; }            // é a chave: 1 linha por aluno
         public Users? User { get; set; } = null!;
 
         public bool? DarkTheme { get; set; } = true;

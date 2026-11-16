@@ -230,6 +230,34 @@ namespace MyCourse.Data
                 new PlanTimeSpans { Id = 3, Name = "Mensal", Duration = TimeSpan.FromDays(30) },
                 new PlanTimeSpans { Id = 4, Name = "Vitalício", Duration = TimeSpan.MaxValue }
             );
+
+            modelBuilder.Entity<PlanTimeSpans>()
+                .Property(p => p.Duration)
+                .HasConversion<long>();
+
+            modelBuilder.Entity<Plans>()
+                .Property(p => p.TestTime)
+                .HasConversion<long>();
+
+
+            //sei n
+
+
+            modelBuilder.Entity<UserSettings>(entity =>
+            {
+                entity.HasKey(s => s.UserId);
+
+                entity.HasOne(s => s.User)
+                      .WithOne()
+                      .HasForeignKey<UserSettings>(s => s.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<CommentAnswers>()
+                .HasOne(a => a.User)
+                .WithMany()
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

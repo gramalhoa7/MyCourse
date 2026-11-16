@@ -12,8 +12,8 @@ using MyCourse.Data;
 namespace MyCourseAPI.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20261110170300_algumasmais")]
-    partial class algumasmais
+    [Migration("20261116204817_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,39 @@ namespace MyCourseAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Contracts", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PlanId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PricePaid")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlanId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Contracts");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
@@ -179,15 +212,12 @@ namespace MyCourseAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
 
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("QuestionId1")
+                    b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionId1");
+                    b.HasIndex("QuestionId");
 
                     b.ToTable("Alternatives");
                 });
@@ -304,6 +334,38 @@ namespace MyCourseAPI.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MyCourse.Models.CommentAnswers", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CommentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(10000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CommentAnswers");
+                });
+
             modelBuilder.Entity("MyCourse.Models.Comments", b =>
                 {
                     b.Property<Guid>("Id")
@@ -336,6 +398,40 @@ namespace MyCourseAPI.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("MyCourse.Models.Notes", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Color")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VideoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VideoId");
+
+                    b.ToTable("Notes");
+                });
+
             modelBuilder.Entity("MyCourse.Models.PlanTimeSpans", b =>
                 {
                     b.Property<int>("Id")
@@ -344,8 +440,8 @@ namespace MyCourseAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
+                    b.Property<long>("Duration")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -359,25 +455,25 @@ namespace MyCourseAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Duration = new TimeSpan(315359999984544),
+                            Duration = 315360000000000L,
                             Name = "Extensivo"
                         },
                         new
                         {
                             Id = 2,
-                            Duration = new TimeSpan(156383999999957),
+                            Duration = 155520000000000L,
                             Name = "Intensivo"
                         },
                         new
                         {
                             Id = 3,
-                            Duration = new TimeSpan(25919999999998),
+                            Duration = 25920000000000L,
                             Name = "Mensal"
                         },
                         new
                         {
                             Id = 4,
-                            Duration = new TimeSpan(9223372036854775807),
+                            Duration = 9223372036854775807L,
                             Name = "Vitalício"
                         });
                 });
@@ -410,8 +506,8 @@ namespace MyCourseAPI.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<TimeSpan>("TestTime")
-                        .HasColumnType("time");
+                    b.Property<long>("TestTime")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -1317,6 +1413,34 @@ namespace MyCourseAPI.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MyCourse.Models.UserSettings", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("AutoPlayNextVideo")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("DarkTheme")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("EmailNotifications")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("HighContrast")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("ReduceMotion")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TextSize")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Settings");
+                });
+
             modelBuilder.Entity("MyCourse.Models.Users", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1420,10 +1544,7 @@ namespace MyCourseAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("TopicId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("TopicId1")
+                    b.Property<int>("TopicId")
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
@@ -1432,9 +1553,28 @@ namespace MyCourseAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TopicId1");
+                    b.HasIndex("TopicId");
 
                     b.ToTable("Videos");
+                });
+
+            modelBuilder.Entity("Contracts", b =>
+                {
+                    b.HasOne("MyCourse.Models.Plans", "Plan")
+                        .WithMany()
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyCourse.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1492,14 +1632,52 @@ namespace MyCourseAPI.Migrations
                 {
                     b.HasOne("MyCourse.Models.Questions", "Question")
                         .WithMany()
-                        .HasForeignKey("QuestionId1")
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Question");
                 });
 
+            modelBuilder.Entity("MyCourse.Models.CommentAnswers", b =>
+                {
+                    b.HasOne("MyCourse.Models.Comments", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyCourse.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MyCourse.Models.Comments", b =>
+                {
+                    b.HasOne("MyCourse.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyCourse.Models.Videos", "Video")
+                        .WithMany()
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("Video");
+                });
+
+            modelBuilder.Entity("MyCourse.Models.Notes", b =>
                 {
                     b.HasOne("MyCourse.Models.Users", "User")
                         .WithMany()
@@ -1540,11 +1718,22 @@ namespace MyCourseAPI.Migrations
                     b.Navigation("Branch");
                 });
 
+            modelBuilder.Entity("MyCourse.Models.UserSettings", b =>
+                {
+                    b.HasOne("MyCourse.Models.Users", "User")
+                        .WithOne()
+                        .HasForeignKey("MyCourse.Models.UserSettings", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MyCourse.Models.Videos", b =>
                 {
                     b.HasOne("MyCourse.Models.Topics", "Topic")
                         .WithMany()
-                        .HasForeignKey("TopicId1")
+                        .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

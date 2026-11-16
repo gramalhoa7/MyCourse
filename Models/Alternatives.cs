@@ -2,7 +2,7 @@ namespace MyCourse.Models
 {
     public class Alternatives
     {
-        public void NewAlternative(char letter, string content, string imageUrl, bool isCorrect, Guid questionId)
+        public void NewAlternative(char letter, string content, string imageUrl, bool isCorrect, int questionId)
         {
             Letter = letter;
             Content = content;
@@ -16,7 +16,7 @@ namespace MyCourse.Models
         public string Content { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
         public bool IsCorrect { get; set; }
-        public Guid QuestionId { get; set; }
+        public int QuestionId { get; set; }
         public Questions Question { get; set; } = null!;
     }
 }
