@@ -24,14 +24,14 @@ namespace MyCourse.Models
         public Guid UserId { get; set; }            // é a chave: 1 linha por aluno
         public Users? User { get; set; } = null!;
 
-        public bool? DarkTheme { get; set; } = true;
-        public bool? EmailNotifications { get; set; } = true;
-        public bool? AutoPlayNextVideo { get; set; } = true;
+        public bool DarkTheme { get; set; } = true;
+        public bool EmailNotifications { get; set; } = true;
+        public bool AutoPlayNextVideo { get; set; } = true;
 
         // acessibilidade
         public TextSize TextSize { get; set; } = TextSize.Medium;
-        public bool? HighContrast { get; set; }
-        public bool? ReduceMotion { get; set; }
+        public bool HighContrast { get; set; } = false;
+        public bool ReduceMotion { get; set; } = false;
     }
     public enum TextSize
     {
