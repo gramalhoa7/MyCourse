@@ -1415,19 +1415,19 @@ namespace MyCourseAPI.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool?>("AutoPlayNextVideo")
+                    b.Property<bool>("AutoPlayNextVideo")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("DarkTheme")
+                    b.Property<bool>("DarkTheme")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("EmailNotifications")
+                    b.Property<bool>("EmailNotifications")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("HighContrast")
+                    b.Property<bool>("HighContrast")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("ReduceMotion")
+                    b.Property<bool>("ReduceMotion")
                         .HasColumnType("bit");
 
                     b.Property<int>("TextSize")
