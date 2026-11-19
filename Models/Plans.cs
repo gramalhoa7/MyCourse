@@ -2,7 +2,7 @@ namespace MyCourse.Models
 {
     public class Plans
     {
-        public void NewPlan(string name, string description, decimal price, int planTimeSpanId, bool highlight, int order)
+        public Plans(string name, string description, decimal price, int planTimeSpanId, bool highlight, int order)
         {
             Name = name;
             Description = description;
@@ -20,7 +20,8 @@ namespace MyCourse.Models
         public PlanTimeSpans PlanTimeSpan { get; set; } = null!;
         public TimeSpan TestTime { get; set; } = TimeSpan.FromDays(7);
         public bool Highlight { get; set; } 
-        public int Order { get; set; } 
+        public int? Order { get; set; } 
+        public bool Status { get; set; } = true;
     }
     public class PlanTimeSpans
     {
