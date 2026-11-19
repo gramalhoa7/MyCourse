@@ -494,7 +494,7 @@ namespace MyCourseAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Order")
+                    b.Property<int?>("Order")
                         .HasColumnType("int");
 
                     b.Property<int>("PlanTimeSpanId")
@@ -502,6 +502,9 @@ namespace MyCourseAPI.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<long>("TestTime")
                         .HasColumnType("bigint");
@@ -532,6 +535,79 @@ namespace MyCourseAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("MyCourse.Models.Subjects", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("MyCourse.Models.SupportAnswers", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("SupportId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(10000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupportId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SupportAnswers");
+                });
+
+            modelBuilder.Entity("MyCourse.Models.Supports", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Supports");
                 });
 
             modelBuilder.Entity("MyCourse.Models.Topics", b =>
@@ -1704,6 +1780,44 @@ namespace MyCourseAPI.Migrations
                     b.Navigation("PlanTimeSpan");
                 });
 
+            modelBuilder.Entity("MyCourse.Models.SupportAnswers", b =>
+                {
+                    b.HasOne("MyCourse.Models.Supports", "Support")
+                        .WithMany("Answers")
+                        .HasForeignKey("SupportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyCourse.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Support");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MyCourse.Models.Supports", b =>
+                {
+                    b.HasOne("MyCourse.Models.Subjects", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyCourse.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MyCourse.Models.Topics", b =>
                 {
                     b.HasOne("MyCourse.Models.Branches", "Branch")
@@ -1740,6 +1854,11 @@ namespace MyCourseAPI.Migrations
             modelBuilder.Entity("MyCourse.Models.Branches", b =>
                 {
                     b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("MyCourse.Models.Supports", b =>
+                {
+                    b.Navigation("Answers");
                 });
 #pragma warning restore 612, 618
         }

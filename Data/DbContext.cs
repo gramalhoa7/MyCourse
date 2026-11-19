@@ -13,6 +13,9 @@ namespace MyCourse.Data
         public DbSet<Videos> Videos { get; set; }
         public DbSet<Comments> Comments { get; set; }
         public DbSet<CommentAnswers> CommentAnswers { get; set; }
+        public DbSet<Subjects> Subjects { get; set; }
+        public DbSet<Supports> Supports { get; set; }
+        public DbSet<SupportAnswers> SupportAnswers { get; set; }
         public DbSet<Notes> Notes { get; set; }
         public DbSet<Plans> Plans { get; set; }
         public DbSet<PlanTimeSpans> PlanTimeSpans { get; set; }
@@ -258,6 +261,24 @@ namespace MyCourse.Data
                 .WithMany()
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            //problema cascata suporte
+
+
+            // Relação Supports -> SupportAnswers
+            modelBuilder.Entity<SupportAnswers>()
+                .HasOne(a => a.Support)
+                .WithMany(s => s.Answers)
+                .HasForeignKey(a => a.SupportId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Relação SupportAnswers -> Users
+            modelBuilder.Entity<SupportAnswers>()
+                .HasOne(a => a.User)
+                .WithMany()
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

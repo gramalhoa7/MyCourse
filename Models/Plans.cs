@@ -2,7 +2,7 @@ namespace MyCourse.Models
 {
     public class Plans
     {
-        public Plans(string name, string description, decimal price, int planTimeSpanId, bool highlight, int order)
+        public Plans(string name, string description, decimal price, int planTimeSpanId, bool highlight, int? order)
         {
             Name = name;
             Description = description;
