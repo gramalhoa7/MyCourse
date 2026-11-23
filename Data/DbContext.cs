@@ -18,7 +18,11 @@ namespace MyCourse.Data
         public DbSet<SupportAnswers> SupportAnswers { get; set; }
         public DbSet<Notes> Notes { get; set; }
         public DbSet<Plans> Plans { get; set; }
+        public DbSet<PlanMatters> PlanMatters { get; set; }
         public DbSet<PlanTimeSpans> PlanTimeSpans { get; set; }
+        public DbSet<Lists> Lists { get; set; }
+        public DbSet<ListsObjectives> ListsObjectives { get; set; }
+        public DbSet<ListsQuestions> ListsQuestions { get; set; }
         public DbSet<Questions> Questions { get; set; }
         public DbSet<Alternatives> Alternatives { get; set; }
         public DbSet<Contracts> Contracts { get; set; }

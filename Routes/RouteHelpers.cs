@@ -12,4 +12,8 @@ public static class RouteHelpers
         var text = userManager.GetUserId(user);
         return Guid.TryParse(text, out var id) ? id : null;
     }
+
+    // Administrador ou funcionário
+    public static bool IsStaff(this ClaimsPrincipal user) =>
+        user.IsInRole(Roles.Admin) || user.IsInRole(Roles.Staff);
 }

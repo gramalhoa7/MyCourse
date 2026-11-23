@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "cEGXH8qBEXw=",
+  "dgSpecHash": "KLJCuM+E8ew=",
   "success": true,
   "projectFilePath": "C:\\Users\\T.T\\Projects\\MyCourseAPI\\MyCourseAPI.csproj",
   "expectedPackageFiles": [
@@ -41,6 +41,7 @@
     "C:\\Users\\T.T\\.nuget\\packages\\microsoft.visualstudio.solutionpersistence\\1.0.52\\microsoft.visualstudio.solutionpersistence.1.0.52.nupkg.sha512",
     "C:\\Users\\T.T\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
     "C:\\Users\\T.T\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512",
+    "C:\\Users\\T.T\\.nuget\\packages\\questpdf\\2026.9.2\\questpdf.2026.9.2.nupkg.sha512",
     "C:\\Users\\T.T\\.nuget\\packages\\system.clientmodel\\1.8.0\\system.clientmodel.1.8.0.nupkg.sha512",
     "C:\\Users\\T.T\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
     "C:\\Users\\T.T\\.nuget\\packages\\system.composition\\9.0.0\\system.composition.9.0.0.nupkg.sha512",

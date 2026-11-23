@@ -20,6 +20,9 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+// Usado para baixar as imagens das questões ao gerar o PDF
+builder.Services.AddHttpClient();
+
 builder.Services.AddDbContext<DBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -28,6 +31,9 @@ builder.Services.AddIdentityApiEndpoints<Users>()
     .AddEntityFrameworkStores<DBContext>();
 
 var app = builder.Build();
+
+// Cria os papéis Admin e Staff e promove a conta de Seed:AdminEmail
+await RoleSeeder.SeedAsync(app.Services, app.Configuration);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -47,6 +53,12 @@ app.VideosRoutes();
 app.CommentsRoutes();
 app.CommentAnswersRoutes();
 app.NotesRoutes();
+app.SettingsRoutes();
+app.PlansRoutes();
+app.SupportsRoutes();
+app.SupportAnswersRoutes();
+app.QuestionsRoutes();
+app.ListsRoutes();
 
 app.UseHttpsRedirection();
 
