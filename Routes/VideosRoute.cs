@@ -15,7 +15,7 @@ public static class VideosRoute
                 return Results.NotFound();
 
             return Results.Ok(video);
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
 
         app.MapGet("Lessons", async (DBContext context, Matters? mat) =>
         {
@@ -25,13 +25,13 @@ public static class VideosRoute
             }
             var videos = await context.Videos.Where(v => v.Topic.Branch.Matter == mat).ToListAsync();
             return Results.Ok(videos);
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
 
         app.MapGet("Controlpanel/Lessons", async (DBContext context) =>
         {
             var videos = await context.Videos.ToListAsync();
             return Results.Ok(videos);
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support"));
 
         app.MapPost("Controlpanel/Lessons", async (DBContext context, VideosRequest req) =>
         {
@@ -39,7 +39,7 @@ public static class VideosRoute
             context.Videos.Add(video);
             await context.SaveChangesAsync();
             return Results.Ok(video);
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support"));
 
         app.MapPut("Controlpanel/Lessons/{id:guid}", async (DBContext context, Guid id, VideosRequest req) =>
         {
@@ -54,7 +54,7 @@ public static class VideosRoute
 
             await context.SaveChangesAsync();
             return Results.Ok(video);
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support"));
 
         app.MapDelete("Controlpanel/Lessons/{id:guid}", async (DBContext context, Guid id) =>
         {
@@ -65,6 +65,6 @@ public static class VideosRoute
             context.Videos.Remove(video);
             await context.SaveChangesAsync();
             return Results.Ok();
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support"));
     }
 }

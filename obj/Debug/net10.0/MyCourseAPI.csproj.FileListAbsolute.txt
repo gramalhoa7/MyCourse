@@ -183,3 +183,4 @@ C:\Users\T.T\Projects\MyCourseAPI\bin\Debug\net10.0\runtimes\win-x64\native\ques
 C:\Users\T.T\Projects\MyCourseAPI\bin\Debug\net10.0\runtimes\win-x64\native\questpdf_skia.dll
 C:\Users\T.T\Projects\MyCourseAPI\bin\Debug\net10.0\runtimes\win-x86\native\questpdf_qpdf.dll
 C:\Users\T.T\Projects\MyCourseAPI\bin\Debug\net10.0\runtimes\win-x86\native\questpdf_skia.dll
+C:\Users\T.T\Projects\MyCourseAPI\bin\Debug\net10.0\Scalar.AspNetCore.dll

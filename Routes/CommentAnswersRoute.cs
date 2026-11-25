@@ -44,7 +44,7 @@ public static class CommentAnswersRoute
             context.CommentAnswers.Add(commentAnswer);
             await context.SaveChangesAsync();
             return Results.Ok(commentAnswer);
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
 
         app.MapPut("Lessons/{videoId:guid}/Comments/{commentId:guid}/Answers/{id:guid}", async (DBContext context, Guid commentId, Guid id, CommentAnswersRequests req, UserManager<Users> userManager, ClaimsPrincipal user) =>
         {
@@ -72,7 +72,7 @@ public static class CommentAnswersRoute
 
             await context.SaveChangesAsync();
             return Results.Ok(commentAnswer);
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
 
         app.MapDelete("Lessons/{videoId:guid}/Comments/{commentId:guid}/Answers/{id:guid}", async (DBContext context, Guid commentId, Guid id, UserManager<Users> userManager, ClaimsPrincipal user) =>
         {
@@ -87,6 +87,6 @@ public static class CommentAnswersRoute
             context.CommentAnswers.Remove(commentAnswer);
             await context.SaveChangesAsync();
             return Results.Ok();
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
     }
 }

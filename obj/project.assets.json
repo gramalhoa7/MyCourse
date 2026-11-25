@@ -965,6 +965,22 @@
           }
         }
       },
+      "Scalar.AspNetCore/3.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/Scalar.AspNetCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Scalar.AspNetCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "System.ClientModel/1.8.0": {
         "type": "package",
         "dependencies": {
@@ -2993,6 +3009,23 @@
         "runtimes/win-x86/native/questpdf_skia.dll"
       ]
     },
+    "Scalar.AspNetCore/3.2.0": {
+      "sha512": "sPxc+khxOd44lDvfuuf9+sdQiyaSYQ8cz+udZIHuO45G3psadh6JMlrv+Km6/D7EeQmd6cSMKxIEA8KhrKkvyg==",
+      "type": "package",
+      "path": "scalar.aspnetcore/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "lib/net10.0/Scalar.AspNetCore.dll",
+        "lib/net10.0/Scalar.AspNetCore.xml",
+        "lib/net11.0/Scalar.AspNetCore.dll",
+        "lib/net11.0/Scalar.AspNetCore.xml",
+        "scalar.aspnetcore.3.2.0.nupkg.sha512",
+        "scalar.aspnetcore.nuspec"
+      ]
+    },
     "System.ClientModel/1.8.0": {
       "sha512": "AqRzhn0v29GGGLj/Z6gKq4lGNtvPHT4nHdG5PDJh9IfVjv/nYUVmX11hwwws1vDFeIAzrvmn0dPu8IjLtu6fAw==",
       "type": "package",
@@ -3355,7 +3388,8 @@
       "Microsoft.AspNetCore.OpenApi >= 10.0.12",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.14",
       "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.14",
-      "QuestPDF >= 2026.9.2"
+      "QuestPDF >= 2026.9.2",
+      "Scalar.AspNetCore >= 3.2.0"
     ]
   },
   "packageFolders": {
@@ -3425,6 +3459,10 @@
           "QuestPDF": {
             "target": "Package",
             "version": "[2026.9.2, )"
+          },
+          "Scalar.AspNetCore": {
+            "target": "Package",
+            "version": "[3.2.0, )"
           }
         },
         "imports": [

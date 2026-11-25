@@ -118,7 +118,7 @@ public static class NotesRoute
             await context.SaveChangesAsync();
 
             return Results.Ok(new { note.Id, note.Title, note.Description, note.Color, note.VideoId, note.CreatedAt });
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
 
         // Editar nota (título, descrição e cor)
         app.MapPut("Lessons/{videoId:guid}/Notes/{id:guid}", async (DBContext context, Guid videoId, Guid id, NotesRequest req, UserManager<Users> userManager, ClaimsPrincipal user) =>
@@ -139,7 +139,7 @@ public static class NotesRoute
 
             await context.SaveChangesAsync();
             return Results.Ok(new { note.Id, note.Title, note.Description, note.Color, note.VideoId, note.CreatedAt });
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
 
         // Apagar nota
         app.MapDelete("Lessons/{videoId:guid}/Notes/{id:guid}", async (DBContext context, Guid videoId, Guid id, UserManager<Users> userManager, ClaimsPrincipal user) =>
@@ -153,6 +153,6 @@ public static class NotesRoute
             context.Notes.Remove(note);
             await context.SaveChangesAsync();
             return Results.Ok();
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
     }
 }

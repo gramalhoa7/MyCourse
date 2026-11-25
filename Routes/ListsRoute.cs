@@ -246,7 +246,7 @@ public static class ListsRoute
             await context.SaveChangesAsync();
 
             return Results.Ok(new { list.Id, list.Title, list.Matter, list.PreList, Questions = list.Questions.Count });
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
 
         // Editar lista oficial: troca título, objetivos e a lista de questões (com a nova ordem)
         app.MapPut("Lists/{id:int}", async (DBContext context, int id, ListsRequest req, UserManager<Users> userManager, ClaimsPrincipal user) =>
@@ -278,7 +278,7 @@ public static class ListsRoute
             await transaction.CommitAsync();
 
             return Results.Ok(new { list.Id, list.Title, list.Matter, list.PreList, Questions = req.QuestionIds.Count });
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
 
         // Apagar: a equipe apaga listas oficiais, o aluno apaga as próprias
         app.MapDelete("Lists/{id:int}", async (DBContext context, int id, UserManager<Users> userManager, ClaimsPrincipal user) =>
@@ -301,7 +301,7 @@ public static class ListsRoute
             context.Lists.Remove(list);   // as questões da lista saem junto (cascata); as questões em si continuam
             await context.SaveChangesAsync();
             return Results.Ok();
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
 
         // Lista personalizada do aluno: uma matéria, número de questões, dificuldades e assuntos
         app.MapPost("Lists/Custom", async (DBContext context, CustomListsRequest req, UserManager<Users> userManager, ClaimsPrincipal user) =>
@@ -369,6 +369,6 @@ public static class ListsRoute
             await context.SaveChangesAsync();
 
             return Results.Ok(new { list.Id, list.Title, list.Matter, Questions = questionIds.Count });
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support", "Studant"));
     }
 }

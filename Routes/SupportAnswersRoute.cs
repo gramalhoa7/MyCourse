@@ -82,7 +82,7 @@ public static class SupportAnswersRoute
                 $"Supports/{id}/Answers/{answer.Id}",
                 answer
             );
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support"));
 
         // Editar resposta
         app.MapPut("Supports/{id:guid}/Answers/{answerId:guid}", async (
@@ -123,7 +123,7 @@ public static class SupportAnswersRoute
             await context.SaveChangesAsync();
 
             return Results.Ok(answer);
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support"));
 
         // Excluir resposta
         app.MapDelete("Supports/{id:guid}/Answers/{answerId:guid}", async (
@@ -157,6 +157,6 @@ public static class SupportAnswersRoute
             await context.SaveChangesAsync();
 
             return Results.Ok();
-        });
+        }).RequireAuthorization(o => o.RequireRole("Adm", "Staff", "Support"));
     }
 }

@@ -5,6 +5,7 @@ using MyCourse.Routes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,7 @@ builder.Services.AddDbContext<DBContext>(options =>
 builder.Services.AddIdentityApiEndpoints<Users>()
     .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<DBContext>();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -39,6 +41,7 @@ await RoleSeeder.SeedAsync(app.Services, app.Configuration);
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.MapIdentityApi<Users>();
@@ -61,5 +64,17 @@ app.QuestionsRoutes();
 app.ListsRoutes();
 
 app.UseHttpsRedirection();
+
+//roles
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+
+    foreach (var role in new[] {"Adm", "Staff", "Support", "Student"})
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole<Guid>(role));
+    }
+}
 
 app.Run();
